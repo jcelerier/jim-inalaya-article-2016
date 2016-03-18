@@ -3,9 +3,14 @@
 \usepackage{microtype}
 \usepackage{fontspec}
 \setmainfont{Fira Sans}
+\setmonofont{Fira Code}
 \usepackage[a4paper]{geometry}
 \usepackage{babel}
-
+\usepackage{pdflscape} %\landscape latex
+\usepackage{caption}
+\usepackage[a4paper]{geometry}
+\usepackage{subcaption}
+\usepackage{listings}
 \title{Présentation du projet \textsc{Inalaya}}
 \date{}
 \begin{document}
@@ -21,11 +26,14 @@
     Concernant l’écriture et l’exécution de scénarios complexes, des travaux de recherche ont eu lieu 
     dans le cadre du projet \textsc{OSSIA} (Open Scenario System for Interactive Applications) soutenu 
     par l’agence nationale de la recherche.
-    L’un des objectifs de ce projet a été d’offrir aux développeurs des outils génériques pour l’écriture de scénarios d’interactions complexes et l’exécution de ceux-ci, notamment via le développement du logiciel \textsc{i-score}\footnote{www.i-score.org}.
+    L’un des objectifs de ce projet a été d’offrir aux développeurs des outils génériques pour l’écriture de scénarios d’interactions complexes et l’exécution de ceux-ci, notamment via le développement du logiciel \textsc{i-score}\footnote{wrareww.i-score.org}.
     
     En amont du projet OSSIA, Blue Yeti a effectué un premier travail sur la création de scénarios 
     audio basés sur des paramètres d’espace, utilisant la géolocalisation de l’utilisateur pour 
-    naviguer dans un scénario s’exécutant sur terminaux mobiles iOS. 
+    naviguer dans un scénario s’exécutant sur terminaux mobiles iOS.
+    
+    Ce document présente un démonstrateur qui ajoute une couche sonore interactive au tableau \emph{Le Jardin des Délices} de Jérôme Bosch.
+    Nous détaillerons l'approche, les contraintes techniques, et les différents cas sonores qui peuvent être rencontrés en parcourant le tableau.
     
     \subsection*{Blue Yeti}
     Blue Yeti conçoit et développe des dispositifs interactifs multimédia, visuels et sonores, dédiés à des usages culturels, éducatifs et artistiques.
@@ -37,32 +45,73 @@
     été acquises durant la thèse de Jean-Michel Couturier, co-gérant de Blue Yeti (thèse effectuée au 
     laboratoire de Mécanique et d’Acoustique de Marseille, soutenue en 2004) et consolidées par la suite dans différents projets de l’entreprise.
     
-    \subsection*{Enjeux}
-    
     \section*{Démonstrateur}
-    \begin{itemize}
-    \item bosch
-    \item décliner éléments qui sont interactifs
-    \item quelle interaction 
-    \end{itemize}
+    Jérôme Bosch est un peintre néerlandais du début de la Renaissance.
+    Nous avons choisi pour ce démonstrateur de mettre en application les travaux menés dans le projet Inalaya, sur le fameux tryptique \emph{Le Jardin des Délices}, dont la création est généralement datée entre 1500 et 1515. 
+    Faisant preuve d'une richesse en terme de détails et de situations distinctes peu courante, dans un style rappelant parfois des \oe uvres surréalistes beaucoup plus récentes, ce tableau nous a semblé idéal pour expérimenter les outils développés et les approches choisies.
+    
+    Pour ce faire, nous proposons aux spectateurs d'interagir avec une surface tactile et de découvrir les différentes couches sonores qui ont été apportées au tableau soit via un casque, soit via une paire d'enceintes.
+    Certaines couches sont statiques et d'autres sont dynamiques : des petits scénarios sont présents dans le tableau, et différentes successions d'évènements et d'interactions peuvent conduire à des résultats sonores différents.
+    
+    \subsection*{Enjeux}
+    Les enjeux pour ce projet sont de découvrir les limites et problèmes techniques qui se posent lors de l'utilisation d'un outil principalement temporel (i-score) pour décrire des scènes spatiales.
+    L'interface d'i-score est en soi relativement complexe : dans une seule time-line, se superposent des graphes logiques, temporels, et de données, qui sont liés par un faible nombre d'éléments de syntaxe.
+    À cela, nous rajoutons une couche de données spatiales.
+    
+    Un second objectif est d'étudier le comportement d'i-score dans un cadre majoritairement interactif.
+    C'est-à-dire que nous cherchons à écrire une partition qui décrit non pas un morceau de musique avec une durée finie et un séquençage plus ou moins ordonné, mais un programme interactif qui est quasiment tout le temps en boucle ouverte : à chaque instant, le spectateur peut interagir avec l'installation. 
+    d
+    %\begin{itemize}
+    %\item bosch
+    %\item décliner éléments qui sont interactifs
+    %\item quelle interaction 
+    %\end{itemize}
     
     \section*{Méthode}
-    Outils:  
+    Nous utilisons un ensemble d'outils fonctionnant en concert pour réaliser cette installation.
+    Le chef d'orchestre est i-score.
+    Cependant, ce n'est pas suffisant.
+    Les fonctionnalités suivantes sont gérées par une flotte de programmes externes : 
     \begin{itemize}
-    \item i-score pour trame scénaristique générale
-    \item Ableton pour gestion du son
-    \item Unity pour gestion du monde et des relations physiques entre objets
+        \item Gérer l'interaction en entrée.
+        \item Produire du son (spatialisé ou non).
+        \item Gérer des scènes d'objets en trois dimensions avec des sources sonores.
     \end{itemize}
     
+    Ces programmes communiquent avec i-score via les protocoles OSC et Minuit.
+    Nous avons notamment utilisé Qt pour l'entrée et la spatialisation, via les bibliothèques \textbf{Qt3D} et \textbf{QtAudioEngine}, ainsi que \textbf{OpenFrameworks} et notamment l'extension \textbf{ofxMaxim} pour différents effets de synthèse.
+    
+    Une des limitations actuelles est la difficulté de router dans un autre logiciel la sortie d'un moteur de spatialisation 3D orienté objet tel que \textbf{Unity3D}, \textbf{Unreal Engine}, ou \textbf{Qt3D}.
+    
+    %Outils:  
+    %\begin{itemize}
+    %\item i-score pour trame scénaristique générale
+    %\item Ableton pour gestion du son
+    %\item Unity pour gestion du monde et des relations physiques entre objets
+    %\end{itemize}
+    
+    \input{bosch}
     \subsection*{Écriture et création}
-    \begin{itemize}
-    \item écriture de l'interaction
-    \item scénarisation
-    \item écriture spatiale -> dessins de zone
-    \item écriture audio ->
-    \item screenshot du scénario
-    \end{itemize}
+    L'écriture pour ce tableau sonore interactif repose sur la notion de calques.
+    Il y a trois premières zones distinctes, qui sont les trois panneaux du tryptique.
     
+    Puis, dans ces zones, on sépare le tableau en plans; cette séparation est décrite en fig.~\ref{fig.plans}.
+    
+    Chaque panneau va posséder une première ambiance sonore discrète, puis chaque plan va lui-même 
+    posséder une ambiance de fond plus marquée qui s'y superpose.
+    Enfin, différents objets interactifs seront placés au premier plan en terme de mixage.
+    
+    
+    Le premier niveau d'écriture peut se faire uniquement à l'aide de la syntaxe propre d'i-score : 
+    sachant que l'on dispose des coordonnées du pointeur sur le tableau, on peut écrire la structure en 
+    fig.~\ref{fig.1stlevel}.
+    
+    \begin{figure}[h]
+        \centering
+        \includegraphics{images/1stcase.eps}
+        \caption{Structure de haut niveau dans i-score. Cette structure est contenue dans une contrainte infinie pour que l'installation ne prenne jamais fin. Les trigger point $G_s$, $C_s$, $D_s$ sont les conditions d'entrée du panneau. Par exemple, pour le panneau central, la condition est \lstinline{/mouse/x > 480 et /mouse/x < 1440}. Pour De même, $G_e$, $C_e$, $D_e$ sont les conditions de sortie. La condition est la négation de la condition d'entrée : \lstinline{/mouse/x <= 480 ou /mouse/x >= 1440}.}
+        \label{fig.1stlevel}
+    \end{figure}
     \subsection*{Jeu et interaction}
     \begin{itemize}
     \item description des interactions possibles
