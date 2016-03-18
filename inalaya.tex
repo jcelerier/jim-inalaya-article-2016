@@ -102,9 +102,11 @@
     Enfin, différents objets interactifs seront placés au premier plan en terme de mixage.
     
     
-    Le premier niveau d'écriture peut se faire uniquement à l'aide de la syntaxe propre d'i-score : 
-    sachant que l'on dispose des coordonnées du pointeur sur le tableau, on peut écrire la structure en 
-    fig.~\ref{fig.1stlevel}.
+    Le premier niveau d'écriture peut se faire uniquement à l'aide de la syntaxe propre à i-score : 
+    sachant que l'on dispose des coordonnées du pointeur sur le tableau, on peut écrire la structure visible en fig.~\ref{fig.1stlevel}.
+    Chacune des contraintes temporelles, en bleu pointillé, contient par la suite les données propres à ce panneau, et des états de début et de fin produisent des sons de transition.
+    
+    Enfin, une fois entré dans un panneau, un scénario déclenche un fade-in d'une seconde sur le son d'ambiance correspondant.
     
     \begin{figure}[h]
         \centering
@@ -112,6 +114,17 @@
         \caption{Structure de haut niveau dans i-score. Cette structure est contenue dans une contrainte infinie pour que l'installation ne prenne jamais fin. Les trigger point $G_s$, $C_s$, $D_s$ sont les conditions d'entrée du panneau. Par exemple, pour le panneau central, la condition est \lstinline{/mouse/x > 480 et /mouse/x < 1440}. Pour De même, $G_e$, $C_e$, $D_e$ sont les conditions de sortie. La condition est la négation de la condition d'entrée : \lstinline{/mouse/x <= 480 ou /mouse/x >= 1440}.}
         \label{fig.1stlevel}
     \end{figure}
+    
+    On décrit par la suite à titre d'exemple le scénario utilisé pour la zone haut-gauche.
+    Dans ce scénario, en fig.~\ref{fig.hg}, on trouve plusieurs zones interactives rondes : ce sont des animaux qui produiront un son lors d'une collision du pointeur.
+    
+    La logique est représentée de manière séparée, dans le scénario situé au dessus de la zone d'espace.
+    Notamment, pour les collisions, on dispose d'une boucle qui contient un trigger : c'est le patron de conception qui sert à traduire un évènement interactif en un autre évènement dans i-score. Nous associons de plus parfois des automations permettant de contrôler volume et pitch des samples correspondant aux sons animaux.
+    
+    Enfin, la distance du curseur à la zone rectangulaire permet de modifier un paramètre de synthèse du son qui semble émaner du pillier central, tandis que la collision a pour effet de déclencher les sons de tous les animaux via une interaction séparée.
+    
+   
+    
     \subsection*{Jeu et interaction}
     \begin{itemize}
     \item description des interactions possibles
