@@ -116,35 +116,41 @@
     \end{figure}
     
     On décrit par la suite à titre d'exemple le scénario utilisé pour la zone haut-gauche.
-    Dans ce scénario, en fig.~\ref{fig.hg}, on trouve plusieurs zones interactives rondes : ce sont des animaux qui produiront un son lors d'une collision du pointeur.
+    Dans ce scénario, en fig.~\ref{fig.2ndcase}, on trouve plusieurs zones interactives ellipsoïdes : ce sont des animaux qui produiront un son lors d'une collision du pointeur.
+    
+    \begin{figure}[h]
+        \centering
+        
+        \begin{subfigure}[t]{0.45\textwidth}\vskip 0pt
+            \centering
+        \includegraphics[height=8cm]{images/2ndcase.eps}
+        \caption{Version simplifiée de la contrainte qui gère la partie supérieure-gauche du tableau. On trouve en haut un processus Scénario et en bas un processus Espace.}
+        \label{fig.2ndcase}
+        \end{subfigure}~
+        \begin{subfigure}[t]{0.45\textwidth}\vskip 0pt
+        \centering
+        \includegraphics[height=6cm]{images/trigger.eps}
+        \caption{Patron pour déclenchement et traduction d'évènements. Une boucle dont la contrainte parente est souple contient un trigger de fin ayant pour condition de déclenchement le message source, et déclenche un état qui va générer le message cible. Une fois cet état envoyé, un bref scénario s'exécute, puis l'attente pour un nouveau message recommence.}
+        \label{fig.trigger}
+        \end{subfigure}
+        \caption{Éléments de scénarisation}
+       
+    \end{figure}
     
     La logique est représentée de manière séparée, dans le scénario situé au dessus de la zone d'espace.
-    Notamment, pour les collisions, on dispose d'une boucle qui contient un trigger : c'est le patron de conception qui sert à traduire un évènement interactif en un autre évènement dans i-score. Nous associons de plus parfois des automations permettant de contrôler volume et pitch des samples correspondant aux sons animaux.
+    Notamment, pour les collisions, on dispose d'une boucle qui contient un trigger : c'est le patron de conception qui sert à traduire un évènement interactif en un autre évènement dans i-score. Nous associons de plus parfois des automations permettant de contrôler volume et pitch des samples correspondant aux sons d'animaux. 
+    Un exemple est donné en fig.~\ref{fig.trigger}.
     
     Enfin, la distance du curseur à la zone rectangulaire permet de modifier un paramètre de synthèse du son qui semble émaner du pillier central, tandis que la collision a pour effet de déclencher les sons de tous les animaux via une interaction séparée.
     
-   
+    \newpage
+    \section*{Conclusion}
+    Le développement de ce projet a fait apparaître des impératifs pour la réalisation efficace de sonifications d'\oe uvres d'art. 
+    Notamment, la disjonction entre la logique et le visuel du tableau force l'auteur à annoter énormément la partie logique pour ne pas commettre d'erreurs.
     
-    \subsection*{Jeu et interaction}
-    \begin{itemize}
-    \item description des interactions possibles
-    \item descriptions des mappings
-    \item screenshot de l'install
-    \end{itemize}
+    Cependant, la méthode proposée permet de développer des sonifications rapidement; une prochaine étape est l'intégration des outils de création sonore directement dans i-score pour ne pas avoir à gérer une flotille de programmes et qui ne dépendrait pas de protocoles de communication réseau. En effet, cela rajoute une certaine complexité : gestion des ports réseau, etc.
     
-    \subsection*{Prototypage}
-    \begin{itemize}
-    \item dans unity ? 
+    Enfin, une approche alternative serait de se baser principalement sur un outil d'écriture à dominante spatiale, comme par exemple le moteur de jeu Unity3D, et de décliner plusieurs petits scénarios i-score qui gèreraient chacun une partie de la scène. 
+    Cette inversion de rôles peut avoir des avantages, comme une vision globale de la scène, et aussi des inconvénients : il devient plus dur d'organiser des interactions entre objets distincts s'ils sont gérés par des scénarios séparés.
     
-    \item dans i-score ? 
-    \end{itemize}
-    
-    \subsection*{Ambitions}
-    \begin{itemize}
-    \item World building
-    \item Écriture de trajectoires spatiales complètes
-    \item Écriture 
-    \item Intégration du séquenceur audio
-    \item Objets sonores interactifs haut et bas niveau
-    \end{itemize}
 \end{document}
